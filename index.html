@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ahix.ai - Dijital İkiz Mentorluk</title>
+    <title>ahix.ai - Sektör Odaklı Dijital İkiz Mentorluk</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
@@ -13,34 +13,31 @@
 </head>
 <body class="bg-gray-50 text-gray-900 antialiased">
 
-    <!-- SABİT VE HER AN GÖRÜNÜR NAVBAR -->
+    <!-- SABİT NAVBAR -->
     <nav class="bg-white border-b border-gray-200 fixed w-full z-30 top-0 start-0">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
                 
-                <!-- Sol Taraf: Her An Tıklanabilir Logo ve Menüler -->
+                <!-- Sol Taraf: Logo ve Menüler -->
                 <div class="flex items-center gap-8">
-                    <!-- Logoya basınca her an başlangıç ekranına döner -->
                     <div onclick="goToLandingScreen()" class="flex-shrink-0 flex items-center cursor-pointer group select-none">
                         <span class="text-xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
                             ahix.ai
                         </span>
-                        <span class="ml-2 px-2 py-0.5 text-[10px] font-semibold bg-emerald-100 text-emerald-800 rounded-full">Beta</span>
+                        <span id="sector-badge" class="ml-2 px-2 py-0.5 text-[10px] font-semibold bg-emerald-100 text-emerald-800 rounded-full">Sektörel Altyapı</span>
                     </div>
 
-                    <!-- İlk Girişte de Aktif Olan Üst Menü Elemanları -->
                     <div class="hidden md:flex items-center space-x-1 text-sm font-medium">
                         <button id="menu-discover" onclick="switchView('view-discover', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Mentör Keşfet</button>
                         <button id="menu-messages" onclick="switchView('view-messages', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Mesajlarım</button>
                         <button id="menu-report" onclick="switchView('view-report', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Characterix Raporum</button>
-                        <!-- Girişte doğrudan tıklanabilir olan Nasıl Çalışır alanı -->
                         <button id="menu-info" onclick="switchView('view-info', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Nasıl Çalışır?</button>
                     </div>
                 </div>
 
-                <!-- Sağ Taraf: Profil Kutusu -->
+                <!-- Sağ Taraf: Profil -->
                 <div class="flex items-center space-x-4">
-                    <div class="hidden sm:block text-sm text-gray-500">Hoş geldin, <span class="font-medium text-gray-800">Menti</span></div>
+                    <div class="hidden sm:block text-sm text-gray-500">Mod: <span id="user-sector-display" class="font-medium text-gray-800">Seçim Yapılmadı</span></div>
                     <div class="w-9 h-9 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-bold text-sm shadow-sm">A</div>
                 </div>
             </div>
@@ -50,35 +47,60 @@
     <!-- UYGULAMA İÇERİK ALANI -->
     <div class="pt-16">
 
-        <!-- 1. İLK GİRİŞ EKRANI (LANDING SCREEN GÖRÜNÜMÜ) -->
+        <!-- 1. GİRİŞ EKRANI: SEKTÖR VE CHARACTERIX ENTEGRASYONU -->
         <div id="view-landing" class="view-section min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 px-4">
             <div class="max-w-2xl text-center space-y-8">
                 <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-emerald-300 text-sm font-medium">
-                    ✨ ahix.ai <span class="ml-1 px-1.5 py-0.5 text-[10px] bg-emerald-600 text-white rounded-full">Premium</span>
+                    ✨ ahix.ai <span class="ml-1 px-1.5 py-0.5 text-[10px] bg-emerald-600 text-white rounded-full">Sektörel Dikey</span>
                 </div>
-                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
-                    Potansiyelinizi <br>
-                    <span class="bg-gradient-to-r from-emerald-400 to-amber-300 bg-clip-text text-transparent">Dijital İkiz Mentorluk</span> ile Keşfedin
+                <h1 class="text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-none">
+                    Sektörünüze Özel <br>
+                    <span class="bg-gradient-to-r from-emerald-400 to-amber-300 bg-clip-text text-transparent">Dijital İkiz Dijital Mentorlar</span>
                 </h1>
-                <p class="text-lg text-slate-300 max-w-lg mx-auto">
-                    Characterix kişilik analizi sonuçlarınızı bağlayın; baskın kimlik tipinize özel üretilmiş dijital ikiziniz ve uzman mentörlerinizle hemen eşleşin.
+                <p class="text-sm md:text-base text-slate-300 max-w-lg mx-auto">
+                    Öncelikle üzerinde çalışmak istediğiniz dikey sektörü seçin, ardından Characterix kişilik analizi raporunuzu entegre edin.
                 </p>
-                <div class="pt-4">
-                    <button onclick="startAnalysisSimulation()" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-emerald-600 rounded-xl overflow-hidden shadow-lg hover:bg-emerald-700 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
-                        <span>Characterix Sonuçlarını Yükle</span>
+
+                <!-- SEKTÖR SEÇİM ALANI -->
+                <div class="max-w-md mx-auto bg-white/5 backdrop-blur-md border border-white/10 rounded-2xl p-4 grid grid-cols-3 gap-3">
+                    <label class="cursor-pointer text-center group">
+                        <input type="radio" name="sector-select" value="finans" checked class="sr-only peer">
+                        <div class="p-3 rounded-xl border border-white/10 text-white peer-checked:bg-emerald-600 peer-checked:border-emerald-500 group-hover:bg-white/5 transition-all">
+                            <div class="text-xl mb-1">📊</div>
+                            <div class="text-xs font-semibold">Finans</div>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer text-center group">
+                        <input type="radio" name="sector-select" value="saglik" class="sr-only peer">
+                        <div class="p-3 rounded-xl border border-white/10 text-white peer-checked:bg-emerald-600 peer-checked:border-emerald-500 group-hover:bg-white/5 transition-all">
+                            <div class="text-xl mb-1">🩺</div>
+                            <div class="text-xs font-semibold">Sağlık</div>
+                        </div>
+                    </label>
+                    <label class="cursor-pointer text-center group">
+                        <input type="radio" name="sector-select" value="telekom" class="sr-only peer">
+                        <div class="p-3 rounded-xl border border-white/10 text-white peer-checked:bg-emerald-600 peer-checked:border-emerald-500 group-hover:bg-white/5 transition-all">
+                            <div class="text-xl mb-1">📡</div>
+                            <div class="text-xs font-semibold">Telekom</div>
+                        </div>
+                    </label>
+                </div>
+                
+                <div class="pt-2">
+                    <button onclick="startAnalysisSimulation()" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-emerald-600 rounded-xl overflow-hidden shadow-lg hover:bg-emerald-700 transition-all duration-300 transform hover:-translate-y-0.5">
+                        <span>Characterix Sonuçlarını Yükle ve Başlat</span>
                         <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
                     </button>
-                    <p class="text-xs text-slate-500 mt-3">Üst menüden sistemin nasıl çalıştığını rapor yüklemeden de inceleyebilirsiniz.</p>
                 </div>
             </div>
         </div>
 
-        <!-- 2. SİMÜLE YÜKLEME EKRANI (LOADING OVERLAY) -->
+        <!-- 2. SİMÜLE YÜKLEME EKRANI (SEKTÖR BAZLI YÜKLEME METNİ) -->
         <div id="loading-screen" class="hidden min-h-[calc(100vh-4rem)] flex-col justify-center items-center bg-slate-900 text-white px-4">
             <div class="text-center space-y-4">
                 <div class="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
-                <p class="text-emerald-300 font-medium animate-pulse">Characterix analiz raporu entegre ediliyor...</p>
-                <p class="text-xs text-slate-500">T1 Kusursuzluk ve T2 Duygusal Paylaşım skorları işleniyor.</p>
+                <p id="loading-text" class="text-emerald-300 font-medium animate-pulse">Sektörel dikey veri tabanı senkronize ediliyor...</p>
+                <p class="text-xs text-slate-500">Characterix T1/T2 profilleri sektörel parametrelerle işleniyor.</p>
             </div>
         </div>
 
@@ -87,6 +109,7 @@
             
             <!-- SAYFA A: MENTÖR KEŞFET GÖRÜNÜMÜ -->
             <div id="view-discover" class="view-section hidden space-y-8">
+                
                 <!-- Characterix Skor Özeti Panel -->
                 <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-xl">
                     <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -128,68 +151,29 @@
                     </div>
                 </div>
 
-                <!-- İki Sütunlu Yapı: Havuz ve Mesajlaşma -->
+                <!-- Dinamik Sektörel Mentör Listesi ve Sohbet Grid -->
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <div class="lg:col-span-2 space-y-6">
-                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg border border-emerald-100">MA</div>
-                                    <div>
-                                        <h3 class="font-semibold text-gray-900 text-lg">Mehmet Akif (Dijital İkiz)</h3>
-                                        <p class="text-sm text-gray-500">Tarihçi, Mentor & Stratejist</p>
-                                    </div>
-                                </div>
-                                <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full">🤖 Sadece Dijital</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-4">T1 profilinizdeki kusursuzluk arayışını ve yüksek detaycılığı iş stratejilerine dönüştürme konusunda simüle edilmiş derin bir uzmanlığa sahibim.</p>
-                            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-                                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded">Uyum Skoru: %94.67</span>
-                                <button onclick="triggerDirectChat('Mehmet Akif (Dijital İkiz)')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Sohbet Başlat</button>
-                            </div>
-                        </div>
-
-                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
-                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
-                                <div class="flex items-center gap-4">
-                                    <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-lg border border-slate-200">ED</div>
-                                    <div>
-                                        <h3 class="font-semibold text-gray-900 text-lg">Elif Demir</h3>
-                                        <p class="text-sm text-gray-500">Tech Lead & Yazılım Girişimcisi</p>
-                                    </div>
-                                </div>
-                                <span class="bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full">🔄 Hibrit Yapı</span>
-                            </div>
-                            <p class="text-sm text-gray-600 mb-4">T2 profilinizin getirdiği yüksek insan odaklılığı teknoloji ekiplerini yönetirken nasıl avantaja çevirebileceğinizi birlikte planlayabiliriz.</p>
-                            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
-                                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded">Uyum Skoru: %76.50</span>
-                                <button onclick="triggerDirectChat('Elif Demir (Dijital İkiz)')" class="border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors">İkiziyle Konuş</button>
-                            </div>
-                        </div>
-                    </div>
+                    <!-- Dinamik olarak JS tarafından doldurulacak alan -->
+                    <div id="mentor-list-container" class="lg:col-span-2 space-y-6"></div>
 
                     <!-- Sağ Sohbet Alanı -->
                     <div class="lg:col-span-1">
-                        <div class="bg-white border border-gray-200 rounded-xl shadow-sm h-[480px] flex flex-col">
+                        <div class="bg-white border border-gray-200 rounded-xl shadow-sm h-[520px] flex flex-col">
                             <div class="p-4 border-b border-gray-200 bg-gray-50 rounded-t-xl flex items-center justify-between">
                                 <div>
-                                    <div id="chat-mentor-name" class="font-semibold text-sm text-gray-900">Mehmet Akif (Dijital İkiz)</div>
-                                    <div class="text-xs text-emerald-600 font-medium">Characterix Odaklı Aktif İkiz</div>
+                                    <div id="chat-mentor-name" class="font-semibold text-sm text-gray-900">Mentör Seçilmedi</div>
+                                    <div id="chat-mentor-title" class="text-xs text-emerald-600 font-medium">Lütfen soldan bir ikiz seçin</div>
                                 </div>
                                 <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
                             </div>
                             <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm">
-                                <div class="flex items-start gap-2.5">
-                                    <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none text-gray-700 max-w-[85%]">
-                                        Selam! Characterix analiz raporunu inceledim. T1 kusursuzluk arayışın ve detaylara odaklanma gücün (~8.09) harika. Stratejik adımlarımıza nereden başlayalım?
-                                    </div>
-                                </div>
+                                <div class="text-center text-gray-400 mt-8 text-xs">Sohbeti başlatmak için bir mentörün kartından geçiş yapın.</div>
                             </div>
-                            <div id="typing-indicator" class="hidden px-4 py-2 text-xs text-gray-400 italic bg-gray-50 border-t border-gray-100">Dijital ikiz analiz sonuçlarınızı yorumlayarak yazıyor...</div>
+                            <div id="typing-indicator" class="hidden px-4 py-2 text-xs text-gray-400 italic bg-gray-50 border-t border-gray-100">Dijital ikiz sektörel parametreleri analiz ederek yazıyor...</div>
                             <div class="p-4 border-t border-gray-200">
                                 <form onsubmit="sendMessage(event)" class="flex gap-2">
-                                    <input id="chat-input" type="text" placeholder="Mesajınızı yazın..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
-                                    <button type="submit" class="bg-emerald-600 text-white font-medium px-4 py-2 rounded-lg text-sm">Gönder</button>
+                                    <input id="chat-input" type="text" placeholder="Mesajınızı yazın..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500" disabled>
+                                    <button id="chat-submit-btn" type="submit" class="bg-emerald-600 text-white font-medium px-4 py-2 rounded-lg text-sm disabled:opacity-50" disabled>Gönder</button>
                                 </form>
                             </div>
                         </div>
@@ -199,25 +183,14 @@
 
             <!-- SAYFA B: MESAJLARIM GÖRÜNÜMÜ -->
             <div id="view-messages" class="view-section hidden bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
-                <h2 class="text-xl font-bold text-gray-900 mb-4">Aktif Sohbet Geçmişiniz</h2>
-                <div class="divide-y divide-gray-100">
-                    <div onclick="openChatFromMessages('Mehmet Akif (Dijital İkiz)')" class="flex justify-between items-center py-4 cursor-pointer hover:bg-gray-50 px-3 rounded-lg transition-colors">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 bg-purple-100 text-purple-700 font-bold rounded-lg flex items-center justify-center">MA</div>
-                            <div>
-                                <h4 class="font-medium text-sm text-gray-900">Mehmet Akif (Dijital İkiz)</h4>
-                                <p class="text-xs text-gray-500">"Kusursuzluk yapın, detay hassasiyeti..."</p>
-                            </div>
-                        </div>
-                        <span class="text-xs text-gray-400">Şimdi</span>
-                    </div>
-                </div>
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Sohbet Geçmişiniz</h2>
+                <div id="messages-list-container" class="divide-y divide-gray-100"></div>
             </div>
 
             <!-- SAYFA C: CHARACTERIX DETAYLI RAPORU -->
             <div id="view-report" class="view-section hidden bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-6">
                 <div class="border-b border-gray-200 pb-4">
-                    <h2 class="text-xl font-bold text-gray-900">Characterix® Potansiyel ve Risk Analiz Raporu</h2>
+                    <h2 class="text-xl font-bold text-gray-900">Characterix® Potansiyel ve Risk Raporu</h2>
                     <p class="text-sm text-gray-500">Mevcut entegrasyona ait tam veri dökümü.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -240,80 +213,164 @@
                 </div>
             </div>
 
-            <!-- SAYFA D: NASIL ÇALIŞIR? (İLK GİRİŞTE DE AÇILABİLİR) -->
+            <!-- SAYFA D: NASIL ÇALIŞIR? -->
             <div id="view-info" class="view-section hidden bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-6">
-                <h2 class="text-xl font-bold text-gray-900">ahix.ai Mentorluk Modeli Nasıl Çalışır?</h2>
+                <h2 class="text-xl font-bold text-gray-900">ahix.ai Sektörel Mentorluk Modeli</h2>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
                     <div class="space-y-2 text-center md:text-left">
                         <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center mx-auto md:mx-0">1</div>
-                        <h4 class="font-semibold text-gray-900 text-sm">Characterix Entegrasyonu</h4>
-                        <p class="text-xs text-gray-500">Dış platformlardan gelen rapor verileriniz asenkron olarak okunur, T1/T2 kişilik haritanız çıkarılır.</p>
+                        <h4 class="font-semibold text-gray-900 text-sm">Sektörel Dikey Filtreleme</h4>
+                        <p class="text-xs text-gray-500">Seçtiğiniz sektöre göre (Finans, Sağlık, Telekom) yapay zeka parametreleri ve mentör kütüphanesi filtrelenir.</p>
                     </div>
                     <div class="space-y-2 text-center md:text-left">
                         <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center mx-auto md:mx-0">2</div>
-                        <h4 class="font-semibold text-gray-900 text-sm">Dijital İkiz Modelleme</h4>
-                        <p class="text-xs text-gray-500">Mentörlerin hafıza parametreleri ve karakter yapıları, sizin güçlü/zayıf yönlerinize göre adapte edilir.</p>
+                        <h4 class="font-semibold text-gray-900 text-sm">Characterix Eşleşmesi</h4>
+                        <p class="text-xs text-gray-500">T1/T2 profilleriniz, ilgili sektördeki liderlik ve iş üretme dinamiklerine göre puanlanır.</p>
                     </div>
                     <div class="space-y-2 text-center md:text-left">
                         <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center mx-auto md:mx-0">3</div>
-                        <h4 class="font-semibold text-gray-900 text-sm">Hibrit Mentorluk Seansı</h4>
-                        <p class="text-xs text-gray-500">7/24 text tabanlı dijital ikizle iletişim kurabilir veya kritik eşikler için mentörün kendisinden randevu alabilirsiniz.</p>
+                        <h4 class="font-semibold text-gray-900 text-sm">Sektörel Dijital İkiz Yanıtı</h4>
+                        <p class="text-xs text-gray-500">Dijital ikizler jenerik cevaplar yerine doğrudan seçtiğiniz sektöre ait terim ve kriz senaryolarıyla cevap üretir.</p>
                     </div>
-                </div>
-                <!-- Kullanıcıyı tekrar yönlendiren buton -->
-                <div class="pt-4 text-center md:text-left">
-                    <button onclick="goToLandingScreen()" class="inline-flex text-xs font-semibold text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg hover:bg-emerald-100">← Giriş Sayfasına Dön ve Testi Yükle</button>
                 </div>
             </div>
 
         </main>
     </div>
 
-    <!-- JavaScript Sayfa ve İletişim Mantığı -->
+    <!-- SEKTÖR TABANLI DİNAMİK VERİ VE JS MİMARİSİ -->
     <script>
-        // Raporun yüklenip yüklenmediğini kontrol eden MVP durum değişkeni
         let isReportUploaded = false;
+        let selectedSector = "finans";
 
+        // SEKTÖREL MENTÖR HAVUZU DATA VERİSİ
+        const sectorMentors = {
+            finans: [
+                { name: "Mehmet Eroğlan (Finans İkizi)", title: "FinTech Yatırımcısı & Algoritmik Stratejist", type: "🤖 Sadece Dijital", desc: "T1 profilinizdeki yüksek kusursuzluk arayışını ve detaycılığı yüksek frekanslı finansal modellemelere ve portföy risk yönetimlerine dönüştürmek için buradayım.", score: "%94.67", welcome: "Merhaba, finansal dikeyde T1 profilinizi inceledim. Detay gücünüz (~8.09) finansal riskleri yakalamakta çok başarılı ancak kolay incinme riski piyasa stres anlarında kararlarınızı geciktirebilir. Hangi finansal hedefi analiz edelim?", response: "Finansal açıdan çok yerinde bir hamle. T1 yapınızdaki kusursuzluk arayışı nakit akışı ve finansal projeksiyon analizlerinde hata payını sıfıra indirir. Fakat risk tablonuzdaki sitemkârlık ve alınganlık faktörleri piyasa düzeltmelerinde (bear market) duygusal kararlar vermenize yol açabilir. Algoritmik yaklaşımlarla bu süreci otomatize edelim mi?" },
+                { name: "Kadriye Girgeç (Finans)", title: "Blockchain & Dijital Bankacılık Tech Lead", type: "🔄 Hibrit Yapı", desc: "T2 profilinizin getirdiği yüksek insan odaklılığı ve sosyal kimlik arayışını geniş FinTech ekiplerini yönetirken nasıl kaldıraca dönüştüreceğinizi planlayabiliriz.", score: "%82.30", welcome: "Selam! FinTech liderlik süreçlerinde T2 kimliğiniz ve yüksek insan odaklılığınız (~8.03) harika bir ekip enerjisi kurmanızı sağlar. Yeni nesil ödeme sistemleri mimarimizi mi konuşalım?", response: "Harika! T2 yapınızdaki yüksek insan odaklılık, finans ekiplerinin kriz anlarında motivasyonunu zirvede tutar. Dikkat etmemiz gereken tek risk, alınganlık metriğinizin (~8.35) kurumsal finansal değerlendirmelerde kararları kişiselleştirmenize yol açmaması." }
+            ],
+            saglik: [
+                { name: "Doç. Dr. Aslı Yılmaz (Sağlık İkizi)", title: "Biyomedikal Yapay Zeka & MedTech Girişimcisi", type: "🤖 Sadece Dijital", desc: "T1 kusursuzluk profilinizin getirdiği veri hassasiyetini, FDA regülasyon süreçleri ve klinik yapay zeka karar destek mekanizmaları üzerinde simüle ediyoruz.", score: "%96.10", welcome: "Merhaba, MedTech dikeyindeki dijital ikiziniz olarak T1 profilinizi analiz ettim. Sağlık teknolojilerinde hata payı kabul edilemez olduğundan detay gücünüz (~8.09) mükemmel bir avantaj. Hangi medikal yazılım mimarisini ele alalım?", response: "Çok kritik bir noktaya değindiniz. Medikal regülasyonlarda T1 kusursuzluğu klinik onay süreçlerini pürüzsüz atlatmamızı sağlar. Ancak sağlık sektöründeki bürokratik engeller ve risk raporunuzdaki kolay incinme düzeyi regülasyon süreçlerinde motivasyonunuzu kırabilir. Bu direnci aşacak adımları kuralım." },
+                { name: "Barış Eren (Sağlık)", title: "Dijital Sağlık Ürün Yönetim Direktörü", type: "🔄 Hibrit Yapı", desc: "T2 kimliğiniz ile hasta odaklı ürün tasarımı (UX/UI) ve sağlık sektörü paydaş yönetimlerinde yüksek başarı yakalayacak bir strateji modeli kurabiliriz.", score: "%79.40", welcome: "Selam! Dijital sağlık ve tele-tıp çözümlerinde T2 yapınızın getirdiği insan odaklılık (~8.03) hasta memnuniyeti tasarımları için biçilmiş kaftan. Hangi ürün metriğine odaklanalım?", response: "Tam isabet. Sağlık uygulamalarında empati ve insan odaklılık kullanıcı bağlılığını doğrudan artırır. Risk alanınızdaki hassasiyetleri, medikal operasyonlardaki sert geri bildirim süreçlerinde kendimizi korumak adına filtrelemeyi öğrenmeliyiz." }
+            ],
+            telekom: [
+                { name: "Kemal Özcan (Telekom İkizi)", title: "5G Altyapı Mimarı & Network Sistem Yöneticisi", type: "🤖 Sadece Dijital", desc: "T1 profilinizin sunduğu sistem kusursuzluğu yaklaşımını, milyonlarca kullanıcılı altyapı mimarileri ve network optimizasyon senaryolarında eşleştiriyoruz.", score: "%91.50", welcome: "Selamlar. Telekom altyapı dikeyinde T1 kusursuzluk haritanızı inceledim. Ağ mimarilerinde sıfır gecikme (zero-latency) hedeflerimiz için detay hassasiyetiniz (~8.09) çok güçlü bir kas. Hangi altyapı genişletmesini planlıyoruz?", response: "Altyapı sistemlerinde arıza yönetimini kurgularken T1 kusursuzluğunuz büyük felaketlerin (outage) önüne geçer. Telekom gibi 7/24 stresli bir sektörde risk raporunuzdaki sitemkârlık oranını operasyonel süreçlerin dışında tutacak bir SLA yapısı kurgulamalıyız." },
+                { name: "Selin Yücel (Telekom)", title: "Geniş Bant & Bulut Çözümleri Ürün Müdürü", type: "🔄 Hibrit Yapı", desc: "T2 yapınızın sunduğu yüksek uyum sağlama yeteneğini, telekom pazarındaki dinamik rekabet koşulları ve müşteri deneyimi operasyonlarında konumlandırıyoruz.", score: "%85.15", welcome: "Merhaba! Telekom çözümlerinde T2 kimliğiniz ve yüksek insan odaklılığınız (~8.03) müşteri odaklı ürün portföyü yönetiminde büyük fark yaratacaktır. Hangi katma değerli servisi planlayalım?", response: "Harika bir vizyon. Telekom servislerinde son kullanıcı bağlılığı tamamen insan odaklılık yeteneğinize dayanır. Dönemsel şikayet ve operasyonel baskı anlarında alınganlık riskini yönetebildiğimiz sürece büyüme kaçınılmaz." }
+            ]
+        };
+
+        // AKIŞ VE SİMÜLASYON YÖNETİMİ
         function startAnalysisSimulation() {
+            // Seçilen sektörü oku
+            const sectorRadios = document.getElementsByName('sector-select');
+            for (let radio of sectorRadios) {
+                if (radio.checked) {
+                    selectedSector = radio.value;
+                    break;
+                }
+            }
+
+            // Arayüz metinlerini seçilen sektöre göre özelleştir
+            const sectorNames = { finans: "Finans Sektörü", saglik: "Sağlık Sektörü", telekom: "Telekom Sektörü" };
+            document.getElementById('loading-text').innerText = `${sectorNames[selectedSector]} veri tabanı ve uyum algoritmaları senkronize ediliyor...`;
+            document.getElementById('sector-badge').innerText = `Dikey: ${sectorNames[selectedSector]}`;
+            document.getElementById('user-sector-display').innerText = sectorNames[selectedSector];
+
+            // Geçiş simülasyonunu başlat
             document.getElementById('view-landing').classList.add('hidden');
             document.getElementById('loading-screen').classList.remove('hidden');
             document.getElementById('loading-screen').classList.add('flex');
 
             setTimeout(() => {
-                isReportUploaded = true; // Rapor yüklendi durumu aktif
+                isReportUploaded = true;
                 document.getElementById('loading-screen').classList.remove('flex');
                 document.getElementById('loading-screen').classList.add('hidden');
                 
-                // Doğrudan keşif paneline geçiş yap ve menü stilini güncelle
+                // Seçilen sektöre ait mentörleri render et
+                renderSectorMentors();
+                
                 switchView('view-discover', document.getElementById('menu-discover'));
             }, 1200);
         }
-        // Logoya tıklandığında veya geri dönülmek istendiğinde çağrılır
+
+        // SEKTÖREL MENTÖRLERİ DİNAMİK OLARAK EKRANA BASAN FONKSİYON
+        function renderSectorMentors() {
+            const listContainer = document.getElementById('mentor-list-container');
+            const messagesListContainer = document.getElementById('messages-list-container');
+            
+            listContainer.innerHTML = '';
+            messagesListContainer.innerHTML = '';
+
+            const currentMentors = sectorMentors[selectedSector];
+
+            currentMentors.forEach((mentor, index) => {
+                // Kart Tasarımlarını Doldur
+                listContainer.innerHTML += `
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                            <div class="flex items-center gap-4">
+                                <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg border border-emerald-100">
+                                    ${mentor.name.substring(0, 2).toUpperCase()}
+                                </div>
+                                <div>
+                                    <h3 class="font-semibold text-gray-900 text-lg">${mentor.name}</h3>
+                                    <p class="text-sm text-gray-500">${mentor.title}</p>
+                                </div>
+                            </div>
+                            <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full">${mentor.type}</span>
+                        </div>
+                        <p class="text-sm text-gray-600 mb-4">${mentor.desc}</p>
+                        <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                            <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded">Uyum Skoru: ${mentor.score}</span>
+                            <button onclick="triggerDirectChat('${mentor.name}')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Sohbet Başlat</button>
+                        </div>
+                    </div>
+                `;
+
+                // Mesaj geçmişi listesini simüle et
+                if (index === 0) {
+                    messagesListContainer.innerHTML += `
+                        <div onclick="openChatFromMessages('${mentor.name}')" class="flex justify-between items-center py-4 cursor-pointer hover:bg-gray-50 px-3 rounded-lg transition-colors">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 bg-emerald-100 text-emerald-800 font-bold rounded-lg flex items-center justify-center">${mentor.name.substring(0, 2).toUpperCase()}</div>
+                                <div>
+                                    <h4 class="font-medium text-sm text-gray-900">${mentor.name}</h4>
+                                    <p class="text-xs text-gray-500">"Characterix raporunu sektörel kırılımla inceledim..."</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-gray-400">Şimdi</span>
+                        </div>
+                    `;
+                }
+            });
+
+            // İlk mentörün sohbetini varsayılan olarak yükle
+            openChat(currentMentors[0].name);
+        }
+
         function goToLandingScreen() {
-            // Tüm view-section'ları gizle, sadece ana giriş ekranını aç
             document.querySelectorAll('.view-section').forEach(section => section.classList.add('hidden'));
             document.getElementById('view-landing').classList.remove('hidden');
             
-            // Aktif menü vurgularını sıfırla
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.className = "nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors";
             });
+            // Giriş durumunu sıfırla
+            isReportUploaded = false;
+            document.getElementById('chat-input').disabled = true;
+            document.getElementById('chat-submit-btn').disabled = true;
         }
 
-        // Single-Page Sayfa Değiştirme Fonksiyonu
         function switchView(viewId, menuElement) {
-            // Eğer "Nasıl Çalışır?" dışında bir yere basıldıysa ve rapor henüz yüklenmediyse kullanıcıyı uyar/yönlendir
             if (viewId !== 'view-info' && !isReportUploaded) {
-                alert("Lütfen önce Characterix sonuçlarınızı sisteme yükleyin.");
+                alert("Lütfen önce dikey sektörünüzü seçip Characterix sonuçlarınızı sisteme entegre edin.");
                 goToLandingScreen();
                 return;
             }
 
-            // Koşul uygunsa tüm sayfaları gizle ve hedef sayfayı aç
             document.querySelectorAll('.view-section').forEach(section => section.classList.add('hidden'));
             document.getElementById(viewId).classList.remove('hidden');
 
-            // Aktif menü buton stilini güncelle
             document.querySelectorAll('.nav-item').forEach(btn => {
                 btn.className = "nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors";
             });
@@ -330,26 +387,32 @@
             openChat(mentorName);
         }
 
+        // SEKTÖR VE KİŞİ BAZLI CANLI SOHBET AÇILIŞI
         function openChat(mentorName) {
             document.getElementById('chat-mentor-name').innerText = mentorName;
-            const chatBox = document.getElementById('chat-box');
             
-            let welcomeMsg = "";
-            if(mentorName.includes("Mehmet Akif")) {
-                welcomeMsg = "Merhaba, ben Mehmet Akif'in dijital ikizi. T1 profilindeki kusursuzluk arayışını (~8.09 detay gücü) ve sitemkâr olmaya açık risklerini analiz ettim. Stratejik olarak adımlarımızı nasıl atalım?";
-            } else {
-                welcomeMsg = "Selam! Ben Elif Demir'in dijital ikizi. T2 kimliğinin getirdiği yüksek insan odaklılık (~8.03) harika bir liderlik potansiyeli. Ekip yönetimi süreçlerini mi değerlendirelim?";
-            }
+            const currentMentors = sectorMentors[selectedSector];
+            const targetMentor = currentMentors.find(m => m.name === mentorName);
+            
+            if(!targetMentor) return;
 
+            document.getElementById('chat-mentor-title').innerText = targetMentor.title;
+            
+            // Input alanlarını aktif hale getir
+            document.getElementById('chat-input').disabled = false;
+            document.getElementById('chat-submit-btn').disabled = false;
+
+            const chatBox = document.getElementById('chat-box');
             chatBox.innerHTML = `
                 <div class="flex items-start gap-2.5">
                     <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none text-gray-700 max-w-[85%]">
-                        ${welcomeMsg}
+                        ${targetMentor.welcome}
                     </div>
                 </div>
             `;
         }
 
+        // DİNAMİK SEKTÖREL CEVAP VERME SİSTEMİ
         function sendMessage(e) {
             e.preventDefault();
             const input = document.getElementById('chat-input');
@@ -375,17 +438,13 @@
             setTimeout(() => {
                 typingIndicator.classList.add('hidden');
                 
-                let responseText = "";
-                if(mentorName.includes("Mehmet Akif")) {
-                    responseText = "Çok haklı bir yaklaşım. Karakter raporundaki T1 (Kusursuzluk Arayışı) yapın, detay hassasiyeti (~8.09) ile birleşince mükemmel çıktılar doğuruyor. Ancak risk tablonuzdaki 'kolay incinme' (~8.53) veya 'sitemkârlık' seviyeleri iş kararlarında esnekliğinizi azaltabilir. Bu engeli aşmak için aksiyon planı çıkaralım mı?";
-                } else {
-                    responseText = "Harika bir bakış açısı! Karakterindeki T2 profili ve yüksek insan odaklılık (~8.03) yönün tam olarak bu durumlarda kilit rol oynuyor. Ekip içindeki uyum sağlama yeteneğin yüksek olsa da alınganlık riskini (~8.35) profesyonel kararlardan uzak tutmalıyız. İletişim stratejimizi bu yönde kuralım.";
-                }
-
+                const currentMentors = sectorMentors[selectedSector];
+                const targetMentor = currentMentors.find(m => m.name === mentorName);
+                
                 chatBox.innerHTML += `
                     <div class="flex items-start gap-2.5">
                         <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none text-gray-700 max-w-[85%]">
-                            ${responseText}
+                            ${targetMentor.response}
                         </div>
                     </div>
                 `;
