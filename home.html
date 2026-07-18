@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ahix.ai - Dijital İkiz Mentorluk</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght=300;400;500;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-900 antialiased">
+
+    <!-- SABİT VE HER AN GÖRÜNÜR NAVBAR -->
+    <nav class="bg-white border-b border-gray-200 fixed w-full z-30 top-0 start-0">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                
+                <!-- Sol Taraf: Her An Tıklanabilir Logo ve Menüler -->
+                <div class="flex items-center gap-8">
+                    <!-- Logoya basınca her an başlangıç ekranına döner -->
+                    <div onclick="goToLandingScreen()" class="flex-shrink-0 flex items-center cursor-pointer group select-none">
+                        <span class="text-xl font-bold bg-gradient-to-r from-emerald-700 to-emerald-600 bg-clip-text text-transparent group-hover:opacity-80 transition-opacity">
+                            ahix.ai
+                        </span>
+                        <span class="ml-2 px-2 py-0.5 text-[10px] font-semibold bg-emerald-100 text-emerald-800 rounded-full">Beta</span>
+                    </div>
+
+                    <!-- İlk Girişte de Aktif Olan Üst Menü Elemanları -->
+                    <div class="hidden md:flex items-center space-x-1 text-sm font-medium">
+                        <button id="menu-discover" onclick="switchView('view-discover', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Mentör Keşfet</button>
+                        <button id="menu-messages" onclick="switchView('view-messages', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Mesajlarım</button>
+                        <button id="menu-report" onclick="switchView('view-report', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Characterix Raporum</button>
+                        <!-- Girişte doğrudan tıklanabilir olan Nasıl Çalışır alanı -->
+                        <button id="menu-info" onclick="switchView('view-info', this)" class="nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors">Nasıl Çalışır?</button>
+                    </div>
+                </div>
+
+                <!-- Sağ Taraf: Profil Kutusu -->
+                <div class="flex items-center space-x-4">
+                    <div class="hidden sm:block text-sm text-gray-500">Hoş geldin, <span class="font-medium text-gray-800">Menti</span></div>
+                    <div class="w-9 h-9 rounded-xl bg-emerald-700 text-white flex items-center justify-center font-bold text-sm shadow-sm">A</div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- UYGULAMA İÇERİK ALANI -->
+    <div class="pt-16">
+
+        <!-- 1. İLK GİRİŞ EKRANI (LANDING SCREEN GÖRÜNÜMÜ) -->
+        <div id="view-landing" class="view-section min-h-[calc(100vh-4rem)] flex flex-col justify-center items-center bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 px-4">
+            <div class="max-w-2xl text-center space-y-8">
+                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-emerald-300 text-sm font-medium">
+                    ✨ ahix.ai <span class="ml-1 px-1.5 py-0.5 text-[10px] bg-emerald-600 text-white rounded-full">Premium</span>
+                </div>
+                <h1 class="text-4xl md:text-6xl font-extrabold text-white tracking-tight leading-none">
+                    Potansiyelinizi <br>
+                    <span class="bg-gradient-to-r from-emerald-400 to-amber-300 bg-clip-text text-transparent">Dijital İkiz Mentorluk</span> ile Keşfedin
+                </h1>
+                <p class="text-lg text-slate-300 max-w-lg mx-auto">
+                    Characterix kişilik analizi sonuçlarınızı bağlayın; baskın kimlik tipinize özel üretilmiş dijital ikiziniz ve uzman mentörlerinizle hemen eşleşin.
+                </p>
+                <div class="pt-4">
+                    <button onclick="startAnalysisSimulation()" class="group relative inline-flex items-center justify-center px-8 py-4 text-base font-semibold text-white bg-emerald-600 rounded-xl overflow-hidden shadow-lg hover:bg-emerald-700 transition-all duration-300 transform hover:-translate-y-0.5 active:translate-y-0">
+                        <span>Characterix Sonuçlarını Yükle</span>
+                        <svg class="w-5 h-5 ml-2 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </button>
+                    <p class="text-xs text-slate-500 mt-3">Üst menüden sistemin nasıl çalıştığını rapor yüklemeden de inceleyebilirsiniz.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. SİMÜLE YÜKLEME EKRANI (LOADING OVERLAY) -->
+        <div id="loading-screen" class="hidden min-h-[calc(100vh-4rem)] flex-col justify-center items-center bg-slate-900 text-white px-4">
+            <div class="text-center space-y-4">
+                <div class="w-12 h-12 border-4 border-emerald-500 border-t-transparent rounded-full animate-spin mx-auto"></div>
+                <p class="text-emerald-300 font-medium animate-pulse">Characterix analiz raporu entegre ediliyor...</p>
+                <p class="text-xs text-slate-500">T1 Kusursuzluk ve T2 Duygusal Paylaşım skorları işleniyor.</p>
+            </div>
+        </div>
+
+        <!-- ANA DASHBOARD BÖLÜMLERİ -->
+        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            
+            <!-- SAYFA A: MENTÖR KEŞFET GÖRÜNÜMÜ -->
+            <div id="view-discover" class="view-section hidden space-y-8">
+                <!-- Characterix Skor Özeti Panel -->
+                <div class="bg-gradient-to-r from-slate-900 via-emerald-950 to-slate-900 rounded-2xl p-6 md:p-8 text-white shadow-xl">
+                    <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                        <div>
+                            <span class="text-xs font-semibold text-emerald-400 tracking-wider uppercase">Hakim Kişilik Tipi</span>
+                            <div class="flex gap-4 mt-3">
+                                <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex-1">
+                                    <div class="text-xl mb-1">🦅 <span class="text-sm font-bold text-slate-300 ml-1">T1 (Yüksek)</span></div>
+                                    <div class="text-xs text-slate-300 leading-tight">Doğru Eylemi ve Mükemmeliyeti Arayan</div>
+                                </div>
+                                <div class="bg-white/5 p-3 rounded-xl border border-white/10 flex-1">
+                                    <div class="text-xl mb-1">🐱 <span class="text-sm font-bold text-slate-300 ml-1">T2 (Yüksek)</span></div>
+                                    <div class="text-xs text-slate-300 leading-tight">Duygusal Paylaşım ve Kimlik Arayışı</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-xs font-semibold text-amber-400 tracking-wider uppercase">En Güçlü Potansiyeller</span>
+                            <div class="space-y-2 mt-3 text-xs">
+                                <div class="flex justify-between items-center bg-white/5 px-3 py-1.5 rounded border border-white/5">
+                                    <span>🎯 Detaylara Dikkat Etme</span> <span class="font-mono text-emerald-400 font-bold">~8.09</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white/5 px-3 py-1.5 rounded border border-white/5">
+                                    <span>🤝 İnsan Odaklılık</span> <span class="font-mono text-emerald-400 font-bold">~8.03</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-xs font-semibold text-red-400 tracking-wider uppercase">Potansiyel Risk Alanları</span>
+                            <div class="space-y-2 mt-3 text-xs">
+                                <div class="flex justify-between items-center bg-white/5 px-3 py-1.5 rounded border border-white/5">
+                                    <span>⚠️ Kolay İncinen / Dayanıklı</span> <span class="font-mono text-red-400 font-bold">~8.53</span>
+                                </div>
+                                <div class="flex justify-between items-center bg-white/5 px-3 py-1.5 rounded border border-white/5">
+                                    <span>⚠️ Sitemkâr / Hoşgörülü</span> <span class="font-mono text-red-400 font-bold">~8.48</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- İki Sütunlu Yapı: Havuz ve Mesajlaşma -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-emerald-50 text-emerald-700 flex items-center justify-center font-bold text-lg border border-emerald-100">MA</div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 text-lg">Mehmet Akif (Dijital İkiz)</h3>
+                                        <p class="text-sm text-gray-500">Tarihçi, Mentor & Stratejist</p>
+                                    </div>
+                                </div>
+                                <span class="bg-emerald-100 text-emerald-800 text-xs font-semibold px-3 py-1 rounded-full">🤖 Sadece Dijital</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">T1 profilinizdeki kusursuzluk arayışını ve yüksek detaycılığı iş stratejilerine dönüştürme konusunda simüle edilmiş derin bir uzmanlığa sahibim.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded">Uyum Skoru: %94.67</span>
+                                <button onclick="triggerDirectChat('Mehmet Akif (Dijital İkiz)')" class="bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2 rounded-lg transition-colors">Sohbet Başlat</button>
+                            </div>
+                        </div>
+
+                        <div class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition-shadow">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-4">
+                                <div class="flex items-center gap-4">
+                                    <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-lg border border-slate-200">ED</div>
+                                    <div>
+                                        <h3 class="font-semibold text-gray-900 text-lg">Elif Demir</h3>
+                                        <p class="text-sm text-gray-500">Tech Lead & Yazılım Girişimcisi</p>
+                                    </div>
+                                </div>
+                                <span class="bg-slate-100 text-slate-800 text-xs font-semibold px-3 py-1 rounded-full">🔄 Hibrit Yapı</span>
+                            </div>
+                            <p class="text-sm text-gray-600 mb-4">T2 profilinizin getirdiği yüksek insan odaklılığı teknoloji ekiplerini yönetirken nasıl avantaja çevirebileceğinizi birlikte planlayabiliriz.</p>
+                            <div class="flex justify-between items-center pt-4 border-t border-gray-100">
+                                <span class="text-xs font-medium text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded">Uyum Skoru: %76.50</span>
+                                <button onclick="triggerDirectChat('Elif Demir (Dijital İkiz)')" class="border border-gray-300 hover:bg-gray-50 text-gray-700 text-sm font-medium px-4 py-2 rounded-lg transition-colors">İkiziyle Konuş</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Sağ Sohbet Alanı -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-white border border-gray-200 rounded-xl shadow-sm h-[480px] flex flex-col">
+                            <div class="p-4 border-b border-gray-200 bg-gray-50 rounded-t-xl flex items-center justify-between">
+                                <div>
+                                    <div id="chat-mentor-name" class="font-semibold text-sm text-gray-900">Mehmet Akif (Dijital İkiz)</div>
+                                    <div class="text-xs text-emerald-600 font-medium">Characterix Odaklı Aktif İkiz</div>
+                                </div>
+                                <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            </div>
+                            <div id="chat-box" class="flex-1 p-4 overflow-y-auto space-y-4 text-sm">
+                                <div class="flex items-start gap-2.5">
+                                    <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none text-gray-700 max-w-[85%]">
+                                        Selam! Characterix analiz raporunu inceledim. T1 kusursuzluk arayışın ve detaylara odaklanma gücün (~8.09) harika. Stratejik adımlarımıza nereden başlayalım?
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="typing-indicator" class="hidden px-4 py-2 text-xs text-gray-400 italic bg-gray-50 border-t border-gray-100">Dijital ikiz analiz sonuçlarınızı yorumlayarak yazıyor...</div>
+                            <div class="p-4 border-t border-gray-200">
+                                <form onsubmit="sendMessage(event)" class="flex gap-2">
+                                    <input id="chat-input" type="text" placeholder="Mesajınızı yazın..." class="flex-1 border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-emerald-500">
+                                    <button type="submit" class="bg-emerald-600 text-white font-medium px-4 py-2 rounded-lg text-sm">Gönder</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAYFA B: MESAJLARIM GÖRÜNÜMÜ -->
+            <div id="view-messages" class="view-section hidden bg-white border border-gray-200 rounded-xl p-6 shadow-sm">
+                <h2 class="text-xl font-bold text-gray-900 mb-4">Aktif Sohbet Geçmişiniz</h2>
+                <div class="divide-y divide-gray-100">
+                    <div onclick="openChatFromMessages('Mehmet Akif (Dijital İkiz)')" class="flex justify-between items-center py-4 cursor-pointer hover:bg-gray-50 px-3 rounded-lg transition-colors">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 bg-purple-100 text-purple-700 font-bold rounded-lg flex items-center justify-center">MA</div>
+                            <div>
+                                <h4 class="font-medium text-sm text-gray-900">Mehmet Akif (Dijital İkiz)</h4>
+                                <p class="text-xs text-gray-500">"Kusursuzluk yapın, detay hassasiyeti..."</p>
+                            </div>
+                        </div>
+                        <span class="text-xs text-gray-400">Şimdi</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAYFA C: CHARACTERIX DETAYLI RAPORU -->
+            <div id="view-report" class="view-section hidden bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-6">
+                <div class="border-b border-gray-200 pb-4">
+                    <h2 class="text-xl font-bold text-gray-900">Characterix® Potansiyel ve Risk Analiz Raporu</h2>
+                    <p class="text-sm text-gray-500">Mevcut entegrasyona ait tam veri dökümü.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <h4 class="font-bold text-emerald-800 text-sm mb-3">🚀 Genişletilmiş Potansiyeller</h4>
+                        <ul class="space-y-2 text-xs text-gray-700">
+                            <li class="flex justify-between"><span>Detaylara Dikkat Etme</span> <span class="font-bold">8,09</span></li>
+                            <li class="flex justify-between"><span>İnsan Odaklılık</span> <span class="font-bold">8,03</span></li>
+                            <li class="flex justify-between"><span>Ağırbaşlı Olmak</span> <span class="font-bold">7,89</span></li>
+                        </ul>
+                    </div>
+                    <div class="bg-gray-50 p-4 rounded-xl border border-gray-100">
+                        <h4 class="font-bold text-red-800 text-sm mb-3">⚠️ Genişletilmiş Riskler</h4>
+                        <ul class="space-y-2 text-xs text-gray-700">
+                            <li class="flex justify-between"><span>Kolay İncinen (Dayanıklı)</span> <span class="font-bold">8,53</span></li>
+                            <li class="flex justify-between"><span>Sitemkâr (Hoşgörülü)</span> <span class="font-bold">8,48</span></li>
+                            <li class="flex justify-between"><span>Alıngan (Neşeli)</span> <span class="font-bold">8,35</span></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SAYFA D: NASIL ÇALIŞIR? (İLK GİRİŞTE DE AÇILABİLİR) -->
+            <div id="view-info" class="view-section hidden bg-white border border-gray-200 rounded-xl p-6 shadow-sm space-y-6">
+                <h2 class="text-xl font-bold text-gray-900">ahix.ai Mentorluk Modeli Nasıl Çalışır?</h2>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6 pt-4">
+                    <div class="space-y-2 text-center md:text-left">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center mx-auto md:mx-0">1</div>
+                        <h4 class="font-semibold text-gray-900 text-sm">Characterix Entegrasyonu</h4>
+                        <p class="text-xs text-gray-500">Dış platformlardan gelen rapor verileriniz asenkron olarak okunur, T1/T2 kişilik haritanız çıkarılır.</p>
+                    </div>
+                    <div class="space-y-2 text-center md:text-left">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center mx-auto md:mx-0">2</div>
+                        <h4 class="font-semibold text-gray-900 text-sm">Dijital İkiz Modelleme</h4>
+                        <p class="text-xs text-gray-500">Mentörlerin hafıza parametreleri ve karakter yapıları, sizin güçlü/zayıf yönlerinize göre adapte edilir.</p>
+                    </div>
+                    <div class="space-y-2 text-center md:text-left">
+                        <div class="w-8 h-8 rounded-full bg-emerald-100 text-emerald-800 font-bold flex items-center justify-center mx-auto md:mx-0">3</div>
+                        <h4 class="font-semibold text-gray-900 text-sm">Hibrit Mentorluk Seansı</h4>
+                        <p class="text-xs text-gray-500">7/24 text tabanlı dijital ikizle iletişim kurabilir veya kritik eşikler için mentörün kendisinden randevu alabilirsiniz.</p>
+                    </div>
+                </div>
+                <!-- Kullanıcıyı tekrar yönlendiren buton -->
+                <div class="pt-4 text-center md:text-left">
+                    <button onclick="goToLandingScreen()" class="inline-flex text-xs font-semibold text-emerald-700 bg-emerald-50 px-4 py-2 rounded-lg hover:bg-emerald-100">← Giriş Sayfasına Dön ve Testi Yükle</button>
+                </div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- JavaScript Sayfa ve İletişim Mantığı -->
+    <script>
+        // Raporun yüklenip yüklenmediğini kontrol eden MVP durum değişkeni
+        let isReportUploaded = false;
+
+        function startAnalysisSimulation() {
+            document.getElementById('view-landing').classList.add('hidden');
+            document.getElementById('loading-screen').classList.remove('hidden');
+            document.getElementById('loading-screen').classList.add('flex');
+
+            setTimeout(() => {
+                isReportUploaded = true; // Rapor yüklendi durumu aktif
+                document.getElementById('loading-screen').classList.remove('flex');
+                document.getElementById('loading-screen').classList.add('hidden');
+                
+                // Doğrudan keşif paneline geçiş yap ve menü stilini güncelle
+                switchView('view-discover', document.getElementById('menu-discover'));
+            }, 1200);
+        }
+        // Logoya tıklandığında veya geri dönülmek istendiğinde çağrılır
+        function goToLandingScreen() {
+            // Tüm view-section'ları gizle, sadece ana giriş ekranını aç
+            document.querySelectorAll('.view-section').forEach(section => section.classList.add('hidden'));
+            document.getElementById('view-landing').classList.remove('hidden');
+            
+            // Aktif menü vurgularını sıfırla
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.className = "nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors";
+            });
+        }
+
+        // Single-Page Sayfa Değiştirme Fonksiyonu
+        function switchView(viewId, menuElement) {
+            // Eğer "Nasıl Çalışır?" dışında bir yere basıldıysa ve rapor henüz yüklenmediyse kullanıcıyı uyar/yönlendir
+            if (viewId !== 'view-info' && !isReportUploaded) {
+                alert("Lütfen önce Characterix sonuçlarınızı sisteme yükleyin.");
+                goToLandingScreen();
+                return;
+            }
+
+            // Koşul uygunsa tüm sayfaları gizle ve hedef sayfayı aç
+            document.querySelectorAll('.view-section').forEach(section => section.classList.add('hidden'));
+            document.getElementById(viewId).classList.remove('hidden');
+
+            // Aktif menü buton stilini güncelle
+            document.querySelectorAll('.nav-item').forEach(btn => {
+                btn.className = "nav-item px-3 py-2 text-gray-600 hover:text-gray-900 hover:bg-gray-50 rounded-lg transition-colors";
+            });
+            menuElement.className = "nav-item px-3 py-2 text-emerald-700 bg-emerald-50 rounded-lg transition-colors";
+        }
+
+        function triggerDirectChat(mentorName) {
+            openChat(mentorName);
+            document.getElementById('chat-input').focus();
+        }
+
+        function openChatFromMessages(mentorName) {
+            switchView('view-discover', document.getElementById('menu-discover'));
+            openChat(mentorName);
+        }
+
+        function openChat(mentorName) {
+            document.getElementById('chat-mentor-name').innerText = mentorName;
+            const chatBox = document.getElementById('chat-box');
+            
+            let welcomeMsg = "";
+            if(mentorName.includes("Mehmet Akif")) {
+                welcomeMsg = "Merhaba, ben Mehmet Akif'in dijital ikizi. T1 profilindeki kusursuzluk arayışını (~8.09 detay gücü) ve sitemkâr olmaya açık risklerini analiz ettim. Stratejik olarak adımlarımızı nasıl atalım?";
+            } else {
+                welcomeMsg = "Selam! Ben Elif Demir'in dijital ikizi. T2 kimliğinin getirdiği yüksek insan odaklılık (~8.03) harika bir liderlik potansiyeli. Ekip yönetimi süreçlerini mi değerlendirelim?";
+            }
+
+            chatBox.innerHTML = `
+                <div class="flex items-start gap-2.5">
+                    <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none text-gray-700 max-w-[85%]">
+                        ${welcomeMsg}
+                    </div>
+                </div>
+            `;
+        }
+
+        function sendMessage(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            const chatBox = document.getElementById('chat-box');
+            const typingIndicator = document.getElementById('typing-indicator');
+            const mentorName = document.getElementById('chat-mentor-name').innerText;
+            const text = input.value.trim();
+
+            if(!text) return;
+
+            chatBox.innerHTML += `
+                <div class="flex items-start gap-2.5 justify-end">
+                    <div class="bg-emerald-700 text-white p-3 rounded-lg rounded-tr-none max-w-[85%]">
+                        ${text}
+                    </div>
+                </div>
+            `;
+            
+            input.value = '';
+            chatBox.scrollTop = chatBox.scrollHeight;
+            typingIndicator.classList.remove('hidden');
+
+            setTimeout(() => {
+                typingIndicator.classList.add('hidden');
+                
+                let responseText = "";
+                if(mentorName.includes("Mehmet Akif")) {
+                    responseText = "Çok haklı bir yaklaşım. Karakter raporundaki T1 (Kusursuzluk Arayışı) yapın, detay hassasiyeti (~8.09) ile birleşince mükemmel çıktılar doğuruyor. Ancak risk tablonuzdaki 'kolay incinme' (~8.53) veya 'sitemkârlık' seviyeleri iş kararlarında esnekliğinizi azaltabilir. Bu engeli aşmak için aksiyon planı çıkaralım mı?";
+                } else {
+                    responseText = "Harika bir bakış açısı! Karakterindeki T2 profili ve yüksek insan odaklılık (~8.03) yönün tam olarak bu durumlarda kilit rol oynuyor. Ekip içindeki uyum sağlama yeteneğin yüksek olsa da alınganlık riskini (~8.35) profesyonel kararlardan uzak tutmalıyız. İletişim stratejimizi bu yönde kuralım.";
+                }
+
+                chatBox.innerHTML += `
+                    <div class="flex items-start gap-2.5">
+                        <div class="bg-gray-100 p-3 rounded-lg rounded-tl-none text-gray-700 max-w-[85%]">
+                            ${responseText}
+                        </div>
+                    </div>
+                `;
+                chatBox.scrollTop = chatBox.scrollHeight;
+            }, 1200);
+        }
+    </script>
+</body>
+</html>
